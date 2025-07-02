@@ -30,17 +30,8 @@ def is_valid_query_llm_groq(query: str) -> bool:
             {
                 "role": "system",
                 "content": (
-                    "You are a query classifier. Determine if the user's input is a valid web search query.\n\n"
-                    "A query is VALID if it can reasonably be answered using a web search engine (e.g., Google).\n\n"
-                    "Examples of VALID queries:\n"
-                    "- \"Best laptop to buy in 2025\"\n"
-                    "- \"Symptoms of COVID-19\"\n"
-                    "- \"How to fix a leaking faucet\"\n"
-                    "- \"Weather in Tokyo tomorrow\"\n\n"
-                    "A query is INVALID if:\n"
-                    "- It is a personal tasks,reminder or command (e.g., \"Buy milk\", \"Set an alarm\", \"Call mom\")\n"
-                    "- It is vague or nonsensical (e.g., \"Tell me something\", \"123abc !@#\")\n\n"
-                    "Respond ONLY with \"Valid\" or \"Invalid\"."
+                    "You are a query classifier. For each line below, respond with 'Valid' or 'Invalid' to indicate whether the line is a valid web search query.\n"
+                    "Only respond with a list of 'Valid' or 'Invalid' corresponding to each numbered line.\n"
                 )
             },
             {
