@@ -612,7 +612,8 @@ export default function QueryAgent() {
   setCurrentView('loading');
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/query', {
+  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+  const response = await fetch(`${apiBaseUrl}/query`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
