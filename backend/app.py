@@ -1,6 +1,6 @@
 # app.py
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
@@ -69,11 +69,6 @@ def handle_query(req: QueryRequest):
 def read_root():
     return {"message": "Welcome to the Lightweight Web Query Agent API!"}
 
-from fastapi import FastAPI, Response
-
-app = FastAPI()
-
 @app.head("/")
 def health_check():
     return Response(status_code=200)
-
