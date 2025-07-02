@@ -612,16 +612,15 @@ export default function QueryAgent() {
   setCurrentView('loading');
 
   try {
-  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-  const response = await fetch(`${apiBaseUrl}/query`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({ query })
+      const apiBaseUrl = "https://query-assistant-backend-wn8q.onrender.com";    
+      const response = await fetch(`${apiBaseUrl}/query`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ query }),
     });
-
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
