@@ -30,8 +30,7 @@ def is_valid_query_llm_groq(query: str) -> bool:
             {
                 "role": "system",
                 "content": (
-                    "You are a query classifier. For each line below, respond with 'Valid' or 'Invalid' to indicate whether the line is a valid web search query.\n"
-                    "Only respond with a list of 'Valid' or 'Invalid' corresponding to each numbered line.\n"
+                    "You are a query classifier. For each query below, respond with 'Valid' or 'Invalid' to indicate whether the query is a valid web search query.\n"
                 )
             },
             {
