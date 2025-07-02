@@ -68,3 +68,12 @@ def handle_query(req: QueryRequest):
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Lightweight Web Query Agent API!"}
+
+from fastapi import FastAPI, Response
+
+app = FastAPI()
+
+@app.head("/")
+def health_check():
+    return Response(status_code=200)
+
