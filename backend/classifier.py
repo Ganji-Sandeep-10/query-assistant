@@ -38,7 +38,7 @@ def is_valid_query_llm_groq(query: str) -> bool:
                     "- \"How to fix a leaking faucet\"\n"
                     "- \"Weather in Tokyo tomorrow\"\n\n"
                     "A query is INVALID if:\n"
-                    "- It is a personal reminder or command (e.g., \"Buy milk\", \"Set an alarm\", \"Call mom\")\n"
+                    "- It is a personal tasks,reminder or command (e.g., \"Buy milk\", \"Set an alarm\", \"Call mom\")\n"
                     "- It is vague or nonsensical (e.g., \"Tell me something\", \"123abc !@#\")\n\n"
                     "Respond ONLY with \"Valid\" or \"Invalid\"."
                 )

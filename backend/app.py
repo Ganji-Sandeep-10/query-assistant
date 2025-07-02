@@ -1,3 +1,5 @@
+# app.py
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,11 +10,9 @@ from summarizer import summarize
 from search_scraper import fetch_and_scrape
 from memory import store_query_result, check_similar_query
 
-from sentence_transformers import SentenceTransformer
-
 app = FastAPI(title="Query Agent API")
 
-# Allow CORS (for frontend)
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,10 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load embedding model once
-embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
-
-# Request and response models
+# Request & response models
 class QueryRequest(BaseModel):
     query: str
 
@@ -46,18 +43,16 @@ def handle_query(req: QueryRequest):
     if not is_valid_query_rule_based(query):
         return QueryResponse(valid=False, source="rule-based", summary="❌ Invalid query (rule-based).")
 
-    # 2. LLM check
+    # 2. LLM-based check
     if not is_valid_query_llm_groq(query):
         return QueryResponse(valid=False, source="llm", summary="❌ Invalid query (LLM-based).")
 
-    # 3. Memory check
-    embedding = embedding_model.encode(query)
-    similar = check_similar_query(embedding)
-
+    # 3. Memory similarity check (text-based)
+    similar = check_similar_query(query)
     if similar:
         return QueryResponse(valid=True, source="memory", summary=similar, links=[])
 
-    # 4. Scraping
+    # 4. Search and scrape
     content, links = fetch_and_scrape(query)
     if not content:
         raise HTTPException(status_code=500, detail="❌ Failed to extract usable content.")
@@ -65,11 +60,11 @@ def handle_query(req: QueryRequest):
     # 5. Summarize
     summary = summarize(content, query=query)
 
-    # 6. Store in memory
-    store_query_result(query, embedding, summary)
+    # 6. Store result
+    store_query_result(query, None, summary)
 
     return QueryResponse(valid=True, source="fresh", summary=summary, links=links)
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the Web Query Agent API!"}
+    return {"message": "Welcome to the Lightweight Web Query Agent API!"}

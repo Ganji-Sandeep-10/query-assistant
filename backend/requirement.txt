@@ -1,9 +1,6 @@
-fastapi
-uvicorn
-transformers
-sentence-transformers
-chromadb
-python-dotenv
-newspaper3k
+requests
 beautifulsoup4
-playwright
+rich
+transformers
+torch
+groq

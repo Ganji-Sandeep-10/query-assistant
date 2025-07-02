@@ -1,42 +1,28 @@
-# memory.py
+import json
+import os
+from difflib import SequenceMatcher
 
-import chromadb
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+MEMORY_FILE = "query_memory.json"
 
-PERSIST_DIR = "./chroma_storage"
+def load_memory():
+    if not os.path.exists(MEMORY_FILE):
+        return {}
+    with open(MEMORY_FILE, "r") as f:
+        return json.load(f)
 
-# ✅ New client initialization (post-0.4.0+)
-client = chromadb.PersistentClient(path=PERSIST_DIR)
+def save_memory(memory):
+    with open(MEMORY_FILE, "w") as f:
+        json.dump(memory, f, indent=2)
 
-embedding_function = SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")
+def store_query_result(query, _embedding_unused, summary):
+    memory = load_memory()
+    memory[query] = summary
+    save_memory(memory)
 
-collection = client.get_or_create_collection(
-    name="query_memory",
-    embedding_function=embedding_function
-)
-
-def store_query_result(query, embedding, summary):
-    collection.add(
-        documents=[summary],
-        embeddings=[embedding],
-        ids=[query]
-    )
-
-def check_similar_query(embedding, threshold=0.8):
-    results = collection.query(
-        query_embeddings=[embedding],
-        n_results=1
-    )
-    
-    if (
-        results 
-        and results.get("documents") 
-        and results.get("distances")
-        and len(results["documents"][0]) > 0 
-        and len(results["distances"][0]) > 0
-        and results["distances"][0][0] < (1 - threshold)
-    ):
-        return results["documents"][0][0]
-    
+def check_similar_query(query, threshold=0.8):
+    memory = load_memory()
+    for past_query, summary in memory.items():
+        similarity = SequenceMatcher(None, query.lower(), past_query.lower()).ratio()
+        if similarity >= threshold:
+            return summary
     return None
-

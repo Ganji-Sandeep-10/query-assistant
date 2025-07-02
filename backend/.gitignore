@@ -1,0 +1,9 @@
+# compiled python files
+__pycache__/
+*.pyc
+
+# environment variables
+.env
+
+# runtime files
+query_memory.json
