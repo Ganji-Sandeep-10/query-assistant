@@ -9,7 +9,7 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID")
 
 # ✅ Gemini LLM
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = os.getenv("GOOGLE_API_KEY")
 GEMINI_MODEL = "gemini-1.5-flash"
 
 # ✅ Groq LLM
