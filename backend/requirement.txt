@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+transformers
+sentence-transformers
+chromadb
+python-dotenv
+newspaper3k
+beautifulsoup4
+playwright
